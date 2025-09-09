@@ -3,6 +3,12 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Snackbar from 'react-native-snackbar'
 import Icons from './components/Icons'
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 export default function App() { 
   
@@ -67,6 +73,10 @@ export default function App() {
       setGameWinner(`${gameState[0].toUpperCase()} won the game!`);
     } 
     else if(
+      gameState[0] !== 'empty' && gameState[1] !== 'empty' && gameState[2] !== 'empty' && gameState[3] !== 'empty' && gameState[4] !== 'empty' && gameState[5] !== 'empty' && gameState[6] !== 'empty' && gameState[7] !== 'empty' && gameState[8] !== 'empty'){
+      setGameWinner(`It's a Draw play again`);
+    }
+    else if(
       gameState[2] === gameState[4] && 
       gameState[4] === gameState[6] && 
       gameState[2] !== 'empty'
@@ -128,7 +138,10 @@ export default function App() {
           <Pressable
           key={index}
           style={styles.card}
-          onPress={() => onChangeItem(index)}
+          onPress={() => {
+            ReactNativeHapticFeedback.trigger("impactHeavy", options);
+            onChangeItem(index)}
+          }
           >
             <Icons name={item} />
           </Pressable>
